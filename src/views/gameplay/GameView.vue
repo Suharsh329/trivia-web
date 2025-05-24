@@ -1,18 +1,21 @@
 <script lang="ts" setup>
 import router from '@/router';
 import { useGameStore } from '@/stores/game';
-import { onMounted, ref, toRefs } from 'vue';
+import { onMounted, ref, toRefs, computed } from 'vue';
 import * as routes from '@/routes';
 
 const { difficultyPercentages, gameMode, numberOfQuestions, playerNames, questions, score, teamNames } =
   toRefs(useGameStore());
 
 const round = ref(1);
+const revealAnswer = ref(false);
 const showDetails = ref(false);
+const showScoreModal = ref(false);
 
 onMounted(() => {
-  if (! questions.value) {
+  if (questions.value.length === 0) {
     questions.value = JSON.parse(localStorage.getItem('trivia-questions') || '[]');
+    round.value = parseInt(JSON.parse(localStorage.getItem('trivia-round') || '1'));
   }
   if (questions.value.length === 0) {
     router.push(routes.ROOT);
@@ -31,7 +34,17 @@ onMounted(() => {
   }
 });
 
+const openScoreModal = () => {
+  showScoreModal.value = true;
+};
+
+const sortedScores = computed(() => {
+  const playersOrTeams = gameMode.value === 'individual' ? playerNames.value : teamNames.value;
+  return [...playersOrTeams].sort((a, b) => b.score - a.score);
+});
+
 const endGame = () => {
+  localStorage.removeItem('trivia-round');
   useGameStore().$reset();
   router.push(routes.ROOT);
 };
@@ -45,6 +58,7 @@ const nextQuestion = () => {
     round.value++;
     localStorage.setItem('trivia-round', round.value.toString());
   }
+  revealAnswer.value = false;
 };
 
 const previousQuestion = () => {
@@ -52,6 +66,7 @@ const previousQuestion = () => {
     round.value--;
     localStorage.setItem('trivia-round', round.value.toString());
   }
+  revealAnswer.value = false;
 };
 
 const updatePoints = (player: any, type: string) => {
@@ -101,19 +116,27 @@ const updatePoints = (player: any, type: string) => {
 
     <div class="flex flex-col items-center justify-center mt-10 px-2">
       <div class="w-full max-w-2xl p-8 bg-white rounded-2xl shadow-2xl flex flex-col items-center space-y-4">
+        <div class="w-full flex justify-between items-center mb-4">
+          <button @click="previousQuestion" class="text-blue-500 hover:text-blue-700 disabled:text-gray-300 cursor-pointer" :disabled="round === 1" v-if="round !== 1">
+            <span class="material-icons text-4xl">arrow_back</span>
+          </button>
+          <div v-else class="w-12 h-12"></div>
+          <button @click="nextQuestion" class="text-blue-500 hover:text-blue-700 disabled:text-gray-300 cursor-pointer" :disabled="round === questions.length" v-if="round !== questions.length">
+            <span class="material-icons text-4xl">arrow_forward</span>
+          </button>
+          <div v-else class="w-12 h-12"></div>
+        </div>
         <div class="text-2xl sm:text-3xl font-bold text-center">
           {{ questions[round - 1]?.question }}
         </div>
-        <div class="text-center mt-2 text-lg text-gray-700 font-medium">
+        <div class="text-center mt-2 text-lg bg-blue-500 text-white font-medium rounded-lg py-2 px-4 cursor-pointer" v-if="!revealAnswer" @click="revealAnswer = !revealAnswer">
+          Reveal Answer
+        </div>
+        <div class="text-center mt-2 text-lg text-black font-medium rounded-lg py-2 px-4 cursor-pointer" v-else @click="revealAnswer = !revealAnswer">
           {{ questions[round - 1]?.answer }}
         </div>
-        <div class="flex justify-between gap-4 mt-6 w-full">
-          <Button @click="previousQuestion" class="bg-blue-500 text-white flex-1 flex items-center justify-center gap-2 rounded-lg py-2 shadow hover:scale-105 transition cursor-pointer" text="Previous" :disabled="round === 1">
-            <span class="material-icons">arrow_back</span>
-          </Button>
-          <Button @click="nextQuestion" class="bg-blue-500 text-white flex-1 flex items-center justify-center gap-2 rounded-lg py-2 shadow hover:scale-105 transition cursor-pointer" text="Next" :disabled="round === questions.length">
-            <span class="material-icons">arrow_forward</span>
-          </Button>
+        <div class="flex justify-center gap-4 mt-6 w-full">
+          <Button text="Finish Game" class="bg-blue-500 text-white flex-1 flex items-center justify-center gap-2 rounded-lg py-2 shadow hover:scale-105 transition cursor-pointer" @click="openScoreModal" v-if="round === questions.length"></Button>
         </div>
       </div>
     </div>
@@ -229,6 +252,37 @@ const updatePoints = (player: any, type: string) => {
         </div>
       </Transition>
     </div>
+
+    <!-- Scores Modal -->
+    <div v-if="showScoreModal" class="fixed inset-0 z-50 flex items-center justify-center">
+      <!-- Backdrop -->
+      <div class="fixed inset-0 bg-black/70 backdrop-blur-sm"></div>
+
+      <!-- Dialog -->
+      <div class="relative w-full max-w-md p-8 bg-white rounded-2xl shadow-2xl z-10 animate-fadeIn">
+        <div>
+          <h1 class="text-2xl font-bold text-center mb-6">Game Over!</h1>
+        </div>
+        <div>
+          <h2 class="text-xl font-semibold mb-4 text-center">Final Scores</h2>
+          <ul class="space-y-3">
+            <li v-for="(player, index) in sortedScores" :key="index" class="flex justify-between items-center p-3 bg-gray-100 rounded-lg">
+              <span class="font-medium text-lg">{{ player.name }}</span>
+              <span class="font-bold text-lg text-blue-600">{{ player.score }}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="mt-8 flex justify-center">
+          <button
+            class="px-6 py-3 bg-red-600 rounded-lg hover:bg-red-500 text-white font-semibold transition duration-200 cursor-pointer shadow-md"
+            @click="endGame"
+          >
+            End Game
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- End Scores Modal -->
   </div>
 </template>
 
