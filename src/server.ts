@@ -38,21 +38,17 @@ axiosService.interceptors.response.use(
 );
 
 export const getData = async (url: string, params = {}) => {
-  const response = await axiosService.get(url, { params: params });
-  return response;
+  return await axiosService.get(url, { params: params });
 };
 
 export const postData = async (url: string, params = {}) => {
-  const response = await axiosService.post(url, { ...params });
-  return response;
+  return await axiosService.post(url, { ...params });
 };
 
 export const putData = async (url: string, params = {}) => {
-  const response = await axiosService.put(url, { ...params });
-  return response;
+  return await axiosService.put(url, { ...params });
 };
 
-export const deleteData = async (url: string) => {
-  const response = await axiosService.delete(url);
-  return response;
+export const deleteData = async (url: string, config = {}) => {
+  return await axiosService.delete(url, config);
 };

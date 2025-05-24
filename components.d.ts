@@ -7,7 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AboutView: typeof import('./src/views/AboutView.vue')['default']
     App: typeof import('./src/App.vue')['default']
     Badge: typeof import('./src/components/common/Badge.vue')['default']
     Banner: typeof import('./src/components/common/Banner.vue')['default']
@@ -15,18 +14,12 @@ declare module 'vue' {
     Card: typeof import('./src/components/common/Card.vue')['default']
     Divider: typeof import('./src/components/common/Divider.vue')['default']
     GameMode: typeof import('./src/views/setup/GameMode.vue')['default']
+    GameView: typeof import('./src/views/gameplay/GameView.vue')['default']
     Header: typeof import('./src/components/common/Header.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     HomeView: typeof import('./src/views/HomeView.vue')['default']
     Icon: typeof import('./src/components/common/Icon.vue')['default']
-    IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
-    IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
-    IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
-    IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
-    IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     InputNumber: typeof import('./src/components/common/InputNumber.vue')['default']
     InputText: typeof import('./src/components/common/InputText.vue')['default']
-    J: typeof import('./src/components/common/j.vue')['default']
     Link: typeof import('./src/components/common/Link.vue')['default']
     NumberOfQuestions: typeof import('./src/views/setup/NumberOfQuestions.vue')['default']
     Progress: typeof import('./src/components/common/Progress.vue')['default']
@@ -36,8 +29,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Score: typeof import('./src/views/setup/Score.vue')['default']
-    TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     Welcome: typeof import('./src/views/setup/Welcome.vue')['default']
-    WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
 }

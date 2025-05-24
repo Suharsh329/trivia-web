@@ -8,7 +8,7 @@ const router = createRouter({
     {
       path: routes.ROOT,
       name: routes.ROOT,
-      component: HomeView,
+      component: () => import('../views/HomeView.vue'),
     },
     {
       path: routes.STATS,
@@ -23,7 +23,7 @@ const router = createRouter({
     {
       path: routes.GAME_PLAY,
       name: routes.GAME_PLAY,
-      component: () => import('../views/HomeView.vue'),
+      component: () => import('../views/gameplay/GameView.vue'),
     },
   ],
 });

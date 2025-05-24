@@ -1,6 +1,15 @@
 import { defineStore } from 'pinia';
 import { postData } from '@/server';
 
+interface Question {
+  question: string;
+  answer: string;
+  acceptableAnswer: string;
+  category: string;
+  difficulty: string;
+  image: string;
+}
+
 export const useGameStore = defineStore('game', {
   state: () => {
     return {
@@ -12,22 +21,36 @@ export const useGameStore = defineStore('game', {
         4: 25,
       },
       gameMode: 'individual',
+      loading: false,
       numberOfQuestions: 10,
       playerNames: [
         {
           name: 'Player 1',
+          score: 0,
+          correct: 0,
+          incorrect: 0,
         },
         {
           name: 'Player 2',
+          score: 0,
+          correct: 0,
+          incorrect: 0,
         },
       ],
+      questions: [] as Question[],
       questionSelection: 'random',
       teamNames : [
         {
           name: 'Team 1',
+          score: 0,
+          correct: 0,
+          incorrect: 0,
         },
         {
           name: 'Team 2',
+          score: 0,
+          correct: 0,
+          incorrect: 0,
         },
       ],
       score: {
@@ -48,8 +71,16 @@ export const useGameStore = defineStore('game', {
         teamNames: this.teamNames,
         score: this.score,
       };
-
-      const response = await postData('/new-game', params);
+      try {
+        this.loading = true;
+        const response = await postData('/new-game', params);
+        this.questions = response.data.questions;
+        localStorage.setItem('trivia-questions', JSON.stringify(this.questions));
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loading = false;
+      }
     }
   },
 });
