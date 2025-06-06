@@ -22,6 +22,7 @@ declare module 'vue' {
     InputText: typeof import('./src/components/common/InputText.vue')['default']
     Link: typeof import('./src/components/common/Link.vue')['default']
     NumberOfQuestions: typeof import('./src/views/setup/NumberOfQuestions.vue')['default']
+    Pill: typeof import('./src/components/common/Pill.vue')['default']
     Progress: typeof import('./src/components/common/Progress.vue')['default']
     QuestionType: typeof import('./src/views/setup/QuestionType.vue')['default']
     RadioButton: typeof import('./src/components/common/RadioButton.vue')['default']

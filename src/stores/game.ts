@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia';
-import { postData } from '@/server';
+import { getData, postData } from '@/server';
 
 interface Question {
-  question: string;
-  answer: string;
-  acceptableAnswer: string;
-  category: string;
-  difficulty: string;
+  question_text: string;
+  correct_answer: string;
+  acceptable_answer: string;
+  sub_category_name: string;
+  difficulty_level: string;
   image: string;
 }
 
@@ -39,7 +39,7 @@ export const useGameStore = defineStore('game', {
       ],
       questions: [] as Question[],
       questionSelection: 'random',
-      teamNames : [
+      teamNames: [
         {
           name: 'Team 1',
           score: 0,
@@ -63,24 +63,28 @@ export const useGameStore = defineStore('game', {
   actions: {
     async createNewGame() {
       const params = {
-        difficultyPercentages: this.difficultyPercentages,
-        gameMode: this.gameMode,
-        numberOfQuestions: this.numberOfQuestions !== 0 ? this.numberOfQuestions : this.customNumber,
-        playerNames: this.playerNames,
-        questionSelection: this.questionSelection,
-        teamNames: this.teamNames,
-        score: this.score,
+        gameId: '',
+        percentages: this.difficultyPercentages,
+        numberOfQuestions:
+          this.numberOfQuestions !== 0 ? this.numberOfQuestions : this.customNumber,
       };
+
       try {
         this.loading = true;
-        const response = await postData('/new-game', params);
+        let response = await postData('/games', { game_name: 'test' });
+        params.gameId = response.data.game.id;
+        await postData('/games/set-random-game', params);
+        response = await getData(`/game?gameId=${params.gameId}&limit=${params.numberOfQuestions}`);
         this.questions = response.data.questions;
+        if (this.questions.length === 0) {
+          throw new Error('No questions found for the selected game.');
+        }
         localStorage.setItem('trivia-questions', JSON.stringify(this.questions));
       } catch (error) {
-        console.error(error);
+        throw error; // Forward the error to be handled by the caller
       } finally {
         this.loading = false;
       }
-    }
+    },
   },
 });

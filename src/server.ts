@@ -20,7 +20,7 @@ axiosService.interceptors.request.use(
 // Response interceptors
 axiosService.interceptors.response.use(
   (response: AxiosResponse<any, any>) => {
-    return response;
+    return response.data;
   },
   async (error: any) => {
     if (error?.response?.status >= 500) {

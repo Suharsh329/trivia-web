@@ -9,9 +9,14 @@ const { customNumber, difficultyPercentages, loading, numberOfQuestions, score, 
 
 const progressHandler = async () => {
   if (step.value === 4) {
-    await useGameStore().createNewGame();
-    await router.push({ name: routes.GAME_PLAY });
-    return;
+    try {
+      await useGameStore().createNewGame();
+      await router.push({ name: routes.GAME_PLAY });
+    } catch (error) {
+      console.error('Error creating:', error);
+    } finally{
+      return;
+    }
   }
 
   step.value += 1;
