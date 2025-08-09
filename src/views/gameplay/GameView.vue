@@ -143,8 +143,8 @@ const getSubCategorySeverity = (subCategory: string) => {
 </script>
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-blue-200 via-blue-100 to-blue-300 font-sans"
     v-if="questions"
+    class="min-h-screen bg-gradient-to-br from-blue-200 via-blue-100 to-blue-300 font-sans"
   >
     <div
       class="flex justify-between items-center p-4 sm:p-6 bg-blue-50 border-b border-gray-300 rounded-lg max-w-full sm:max-w-screen-xl w-full mx-auto shadow-md"
@@ -175,19 +175,19 @@ const getSubCategorySeverity = (subCategory: string) => {
       >
         <div class="w-full flex justify-between items-center mb-4">
           <button
-            @click="previousQuestion"
+            v-if="round !== 1"
             class="text-blue-500 hover:text-blue-700 disabled:text-gray-300 cursor-pointer"
             :disabled="round === 1"
-            v-if="round !== 1"
+            @click="previousQuestion"
           >
             <span class="material-icons text-4xl">arrow_back</span>
           </button>
           <div v-else class="w-12 h-12"></div>
           <button
-            @click="nextQuestion"
+            v-if="round !== questions.length"
             class="text-blue-500 hover:text-blue-700 disabled:text-gray-300 cursor-pointer"
             :disabled="round === questions.length"
-            v-if="round !== questions.length"
+            @click="nextQuestion"
           >
             <span class="material-icons text-4xl">arrow_forward</span>
           </button>
@@ -195,32 +195,32 @@ const getSubCategorySeverity = (subCategory: string) => {
         </div>
         <div>
           <Badge
+            v-if="questions[round - 1]?.sub_category_name"
             :severity="getSubCategorySeverity(questions[round - 1]?.sub_category_name).severity"
             :text="questions[round - 1]?.sub_category_name"
             class="font-semi"
-            v-if="questions[round - 1]?.sub_category_name"
           />
           -
           <Badge
+            v-if="questions[round - 1]?.difficulty_level"
             :severity="getDifficultyLevel(questions[round - 1]?.difficulty_level).severity"
             :text="getDifficultyLevel(questions[round - 1]?.difficulty_level).level"
             class="font-semi"
-            v-if="questions[round - 1]?.difficulty_level"
           />
         </div>
         <div class="text-xl sm:text-2xl font-bold text-center">
           {{ questions[round - 1]?.question_text }}
         </div>
         <div
-          class="text-center mt-2 text-lg bg-blue-500 text-white font-medium rounded-lg py-2 px-4 cursor-pointer"
           v-if="!revealAnswer"
+          class="text-center mt-2 text-lg bg-blue-500 text-white font-medium rounded-lg py-2 px-4 cursor-pointer"
           @click="revealAnswer = !revealAnswer"
         >
           Reveal Answer
         </div>
         <div
-          class="text-center mt-2 text-lg text-black font-medium rounded-lg py-2 px-4 cursor-pointer"
           v-else
+          class="text-center mt-2 text-lg text-black font-medium rounded-lg py-2 px-4 cursor-pointer"
           @click="revealAnswer = !revealAnswer"
         >
           {{ questions[round - 1]?.correct_answer }} <br />
@@ -228,10 +228,10 @@ const getSubCategorySeverity = (subCategory: string) => {
         </div>
         <div class="flex justify-center gap-4 mt-6 w-full">
           <Button
+            v-if="round === questions.length"
             text="Finish Game"
             class="bg-blue-500 text-white flex-1 flex items-center justify-center gap-2 rounded-lg py-2 shadow hover:scale-105 transition cursor-pointer"
             @click="openScoreModal"
-            v-if="round === questions.length"
           ></Button>
         </div>
       </div>
@@ -263,8 +263,8 @@ const getSubCategorySeverity = (subCategory: string) => {
           </div>
           <div class="flex gap-4 mt-4 w-full">
             <InputText
-              placeholder="Correct"
               v-model="player.correct"
+              placeholder="Correct"
               class="w-1/5 p-2 border border-gray-300 rounded-lg"
             />
             <Button
@@ -275,8 +275,8 @@ const getSubCategorySeverity = (subCategory: string) => {
           </div>
           <div class="flex gap-4 mt-2 w-full">
             <InputText
-              placeholder="Incorrect"
               v-model="player.incorrect"
+              placeholder="Incorrect"
               class="w-1/5 p-2 border border-gray-300 rounded-lg"
             />
             <Button
@@ -303,8 +303,8 @@ const getSubCategorySeverity = (subCategory: string) => {
             class="relative w-full max-w-2xl p-8 bg-white rounded-2xl shadow-2xl z-10 animate-fadeIn"
           >
             <button
-              @click="showDetails = false"
               class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-3xl cursor-pointer"
+              @click="showDetails = false"
             >
               &times;
             </button>

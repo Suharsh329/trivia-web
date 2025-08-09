@@ -19,9 +19,9 @@ defineEmits(['update:modelValue']);
         :name="name"
         :value="value"
         :checked="modelValue === value"
-        @change="$emit('update:modelValue', value)"
         class="h-4 w-4 text-blue-600 border-gray-300"
         :disabled="disabled"
+        @change="$emit('update:modelValue', value)"
       >
     </div>
     <div class="ml-3 flex flex-row">

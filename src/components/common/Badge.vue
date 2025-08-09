@@ -32,7 +32,7 @@ const stroke: { [key: string]: string } = {
 <template>
   <span class="inline-flex items-center rounded-md px-2 py-1 text-sm font-medium" :class="severity[props.severity]">
     {{ props.text }}
-    <button type="button" class="group relative -mr-1 size-3.5 rounded-xs" v-if="props.dismissible" @click="$emit('remove')">
+    <button v-if="props.dismissible" type="button" class="group relative -mr-1 size-3.5 rounded-xs" @click="$emit('remove')">
       <span class="sr-only">Remove</span>
       <svg viewBox="0 0 14 14" class="size-3.5" :class="stroke[props.severity]">
         <path d="M4 4l6 6m0-6l-6 6" />

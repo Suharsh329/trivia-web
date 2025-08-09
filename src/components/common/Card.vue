@@ -7,13 +7,13 @@ const props = defineProps({
 </script>
 <template>
   <div class="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow-md">
-    <div class="px-4 py-5 sm:px-6" v-if="props.header">
+    <div v-if="props.header" class="px-4 py-5 sm:px-6">
       <slot name="header"></slot>
     </div>
     <div class="px-4 py-5 sm:p-6">
       <slot></slot>
     </div>
-    <div class="px-4 py-4 sm:px-6" v-if="props.footer">
+    <div v-if="props.footer" class="px-4 py-4 sm:px-6">
       <slot name="footer"></slot>
     </div>
   </div>

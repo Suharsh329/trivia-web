@@ -56,10 +56,10 @@ const disableButton = computed(() => {
         </div>
 
         <div v-if="step > 0" class="flex justify-between">
-          <div @click="backHandler" class="mb-2 ml-6 cursor-pointer hover:scale-105 transition">
+          <div class="mb-2 ml-6 cursor-pointer hover:scale-105 transition" @click="backHandler">
             <Icon name="arrow-left" />
           </div>
-          <div @click="discardHandler" class="mb-2 mr-6 cursor-pointer hover:scale-105 transition">
+          <div class="mb-2 mr-6 cursor-pointer hover:scale-105 transition" @click="discardHandler">
             <Icon name="bin" stroke="red" />
           </div>
         </div>
@@ -82,11 +82,11 @@ const disableButton = computed(() => {
 
         <div class="px-6 pt-4 pb-2 mt-4 text-center">
           <button
-            @click="progressHandler"
             :disabled="disableButton"
             :loading="loading"
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg cursor-pointer min-w-25 shadow hover:scale-105 transition duration-200"
             :class="{ 'bg-green-600 hover:bg-green-800': step === 4 }"
+            @click="progressHandler"
           >
             {{ step === 0 ? 'New Game' : step === 4 ? 'Start' : 'Next' }}
           </button>

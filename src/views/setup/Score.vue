@@ -15,20 +15,20 @@ const {
       <div class="flex flex-col space-y-2">
         <label class="text-gray-700">Correct Answer:</label>
         <InputText
-          placeholder="Correct"
           v-model="score.correct"
+          placeholder="Correct"
           class="w-20 p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
         />
-        <span class="text-sm text-red-400" v-if="!score.correct">Please enter a value</span>
+        <span v-if="!score.correct" class="text-sm text-red-400">Please enter a value</span>
       </div>
       <div class="flex flex-col space-y-2">
         <label class="text-gray-700">Incorrect Answer:</label>
         <InputText
-          placeholder="Incorrect"
           v-model="score.incorrect"
+          placeholder="Incorrect"
           class="w-20 p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
         />
-        <span class="text-sm text-red-400" v-if="!score.incorrect">Please enter a value</span>
+        <span v-if="!score.incorrect" class="text-sm text-red-400">Please enter a value</span>
       </div>
     </div>
   </div>

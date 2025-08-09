@@ -7,8 +7,8 @@ import router from './router';
 <template>
   <div class="min-h-screen bg-gradient-to-br from-blue-200 via-blue-100 to-blue-300 font-sans">
     <header
-      class="flex justify-between items-center p-4 sm:p-6 bg-white/80 backdrop-blur-sm border-b border-gray-300 rounded-lg max-w-full sm:max-w-screen-xl w-full mx-auto shadow-md overflow-x-hidden px-4 sm:px-6"
       v-if="router.currentRoute.value.name !== routes.GAME_PLAY"
+      class="flex justify-between items-center p-4 sm:p-6 bg-white/80 backdrop-blur-sm border-b border-gray-300 rounded-lg max-w-full sm:max-w-screen-xl w-full mx-auto shadow-md overflow-x-hidden px-4 sm:px-6"
     >
       <div class="flex items-center space-x-2">
         <span class="material-icons text-blue-600">quiz</span>

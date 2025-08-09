@@ -53,16 +53,16 @@ const selectGameMode = computed(() => {
       <div v-if="selectGameMode === 'individual'" class="mt-4 space-y-4">
         <div v-for="(player, index) in playerNames" :key="index" class="flex items-center space-x-3">
           <Icon
+            v-if="playerNames.length > 1"
             name="dismiss"
             size="size-4"
             stroke="red"
             class="cursor-pointer hover:scale-110 transition"
             @click="deleteInput(index)"
-            v-if="playerNames.length > 1"
           />
           <InputText
-            :placeholder="'Player ' + (index + 1)"
             v-model="player.name"
+            :placeholder="'Player ' + (index + 1)"
             class="flex-1 p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
           />
         </div>
@@ -74,16 +74,16 @@ const selectGameMode = computed(() => {
       <div v-else class="mt-4 space-y-4">
         <div v-for="(team, index) in teamNames" :key="index" class="flex items-center space-x-3">
           <Icon
+            v-if="teamNames.length > 1"
             name="dismiss"
             size="size-4"
             stroke="red"
             class="cursor-pointer hover:scale-110 transition"
             @click="deleteInput(index)"
-            v-if="teamNames.length > 1"
           />
           <InputText
-            :placeholder="'Team ' + (index + 1)"
             v-model="team.name"
+            :placeholder="'Team ' + (index + 1)"
             class="flex-1 p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
           />
         </div>

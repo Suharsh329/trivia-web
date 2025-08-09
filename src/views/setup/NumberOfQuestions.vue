@@ -22,12 +22,12 @@ const customNumberValidation = computed(() => {
       </RadioGroup>
       <div v-if="numberOfQuestions === 0" class="mt-4">
         <InputText
+          v-model="customNumber"
           class="w-25 p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
           type="number"
           placeholder="Custom"
-          v-model="customNumber"
         />
-        <span class="block mt-2 text-sm text-red-400" v-if="customNumberValidation">Please enter a value between 1 and 50</span>
+        <span v-if="customNumberValidation" class="block mt-2 text-sm text-red-400">Please enter a value between 1 and 50</span>
       </div>
     </div>
   </div>

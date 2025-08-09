@@ -25,9 +25,9 @@ const totalPercentage = computed(() => {
         <label class="inline-flex items-center space-x-3">
           <span class="text-gray-700">Difficulty 1:</span>
           <InputText
+            v-model="difficultyPercentages[1]"
             type="number"
             placeholder="Difficulty 1"
-            v-model="difficultyPercentages[1]"
             class="w-20 p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
           />
           <span class="text-gray-700">%</span>
@@ -35,9 +35,9 @@ const totalPercentage = computed(() => {
         <label class="inline-flex items-center space-x-3">
           <span class="text-gray-700">Difficulty 2:</span>
           <InputText
+            v-model="difficultyPercentages[2]"
             type="number"
             placeholder="Difficulty 2"
-            v-model="difficultyPercentages[2]"
             class="w-20 p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
           />
           <span class="text-gray-700">%</span>
@@ -45,9 +45,9 @@ const totalPercentage = computed(() => {
         <label class="inline-flex items-center space-x-3">
           <span class="text-gray-700">Difficulty 3:</span>
           <InputText
+            v-model="difficultyPercentages[3]"
             type="number"
             placeholder="Difficulty 3"
-            v-model="difficultyPercentages[3]"
             class="w-20 p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
           />
           <span class="text-gray-700">%</span>
@@ -55,15 +55,15 @@ const totalPercentage = computed(() => {
         <label class="inline-flex items-center space-x-3">
           <span class="text-gray-700">Difficulty 4:</span>
           <InputText
+            v-model="difficultyPercentages[4]"
             type="number"
             placeholder="Difficulty 4"
-            v-model="difficultyPercentages[4]"
             class="w-20 p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
           />
           <span class="text-gray-700">%</span>
         </label>
       </div>
-      <span class="block mt-4 text-sm text-red-400" v-if="totalPercentage !== 100">Total must equal 100</span>
+      <span v-if="totalPercentage !== 100" class="block mt-4 text-sm text-red-400">Total must equal 100</span>
     </div>
   </div>
 </template>
