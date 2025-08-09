@@ -10,6 +10,27 @@ interface Question {
   image: string;
 }
 
+// Function to generate a random game name
+function generateRandomGameName(): string {
+  const adjectives = [
+    'Epic', 'Amazing', 'Brilliant', 'Fantastic', 'Incredible', 'Awesome',
+    'Legendary', 'Ultimate', 'Super', 'Mega', 'Lightning', 'Thunder',
+    'Cosmic', 'Stellar', 'Blazing', 'Mighty', 'Swift', 'Golden'
+  ];
+
+  const nouns = [
+    'Quiz', 'Challenge', 'Battle', 'Tournament', 'Competition', 'Contest',
+    'Showdown', 'Duel', 'Match', 'Game', 'Arena', 'Championship',
+    'Quest', 'Adventure', 'Mission', 'Trial', 'Test', 'Clash'
+  ];
+
+  const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+  const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+  const randomNumber = Math.floor(Math.random() * 1000) + 1;
+
+  return `${randomAdjective}-${randomNoun}-${randomNumber}`;
+}
+
 export const useGameStore = defineStore('game', {
   state: () => {
     return {
@@ -71,12 +92,12 @@ export const useGameStore = defineStore('game', {
 
       try {
         this.loading = true;
-        let response = await postData('/games', { game_name: 'test' });
+        let response = await postData('/games', { game_name: generateRandomGameName() });
         params.gameId = response.data.game.id;
         await postData('/games/set-random-game', params);
         response = await getData(`/game?gameId=${params.gameId}&limit=${params.numberOfQuestions}`);
         this.questions = response.data.questions;
-        if (this.questions.length === 0) {
+        if (!this.questions || this.questions?.length === 0) {
           throw new Error('No questions found for the selected game.');
         }
         localStorage.setItem('trivia-questions', JSON.stringify(this.questions));
